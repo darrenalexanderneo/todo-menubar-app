@@ -38,7 +38,7 @@ A beautiful macOS menubar app for instantly capturing todos with a global hotkey
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/todo-menubar-app.git
+git clone https://github.com/darrenalexanderneo/todo-menubar-app.git
 cd todo-menubar-app
 
 # Install dependencies
