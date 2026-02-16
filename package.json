@@ -1,0 +1,36 @@
+{
+  "name": "todo-menubar-app",
+  "version": "1.0.0",
+  "description": "macOS menubar todo capture app with global hotkey",
+  "main": "src/main/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "build": "electron-builder --mac"
+  },
+  "keywords": ["electron", "menubar", "todo", "macos", "productivity"],
+  "author": "Darren Neo",
+  "license": "MIT",
+  "dependencies": {
+    "electron-store": "^9.0.0",
+    "menubar": "^9.5.2",
+    "vue": "^3.5.28"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.darrenneo.todobar",
+    "productName": "Todo Capture",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ]
+  }
+}

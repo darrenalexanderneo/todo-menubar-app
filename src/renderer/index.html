@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo Capture</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <h1>📝 Todo Capture</h1>
+      <p class="subtitle">Press Cmd+Ctrl+K to capture clipboard</p>
+    </div>
+
+    <div class="add-todo-section">
+      <form @submit.prevent="addNewTodo" class="add-todo-form">
+        <input
+          type="text"
+          class="add-todo-input"
+          placeholder="Add a new todo..."
+          v-model="newTodoText"
+          ref="addInput"
+        >
+        <select v-model="newTodoPriority" class="priority-select">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button type="submit" class="add-btn" :disabled="!newTodoText.trim()">+</button>
+      </form>
+    </div>
+
+    <div class="search-section">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search todos..."
+        v-model="searchQuery"
+      >
+    </div>
+
+    <div class="filters">
+      <select v-model="filterPriority" class="filter-select">
+        <option value="">All Priorities</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+
+      <select v-model="filterCategory" class="filter-select" v-if="categories.length > 0">
+        <option v-for="category in categories" :key="category" :value="category">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+
+    <div class="todos-container">
+      <div v-if="filteredTodos.length === 0" class="empty-state">
+        <p>No todos yet!</p>
+        <p class="hint">Copy text anywhere and press Cmd+Shift+T to add your first todo.</p>
+      </div>
+
+      <div v-else class="todo-list">
+        <div
+          v-for="todo in filteredTodos"
+          :key="todo.id"
+          class="todo-item"
+          :class="{ completed: todo.completed }"
+        >
+          <input
+            type="checkbox"
+            :checked="todo.completed"
+            @change="toggleComplete(todo.id)"
+            class="todo-checkbox"
+          >
+
+          <div class="todo-content">
+            <div class="todo-text">{{ todo.text }}</div>
+            <div class="todo-meta">
+              <span
+                v-if="todo.priority"
+                class="priority-badge"
+                :class="'priority-' + todo.priority"
+                @click="cyclePriority(todo)"
+                title="Click to change priority"
+              >
+                {{ todo.priority }}
+              </span>
+              <span v-for="category in todo.categories" :key="category" class="category-tag">
+                {{ category }}
+              </span>
+              <span class="todo-time">{{ formatTime(todo.createdAt) }}</span>
+            </div>
+          </div>
+
+          <button @click="deleteTodo(todo.id)" class="delete-btn" title="Delete">×</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button @click="clearCompleted" class="clear-btn" v-if="hasCompleted">
+        Clear Completed
+      </button>
+      <span class="stats">{{ stats }}</span>
+    </div>
+  </div>
+
+  <!-- Load Vue 3 from CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <!-- Load app logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
