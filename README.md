@@ -20,13 +20,19 @@ A beautiful macOS menubar app for instantly capturing todos with a global hotkey
 
 ### Option 1: Download Pre-Built App (Recommended)
 
+> **Note:** This app is not signed with an Apple Developer certificate. macOS may warn that the app is "damaged" or block it from opening. Follow the steps below to bypass this.
+
 1. **Download the latest DMG** from [Releases](../../releases)
 2. **Open the DMG** and drag `Todo Capture.app` to Applications
-3. **Launch** the app from Applications or Spotlight
-4. **Grant Accessibility Permissions** when prompted (required for global hotkey)
+3. **Remove the quarantine flag** — open Terminal and run:
+   ```bash
+   xattr -cr "/Applications/Todo Capture.app"
+   ```
+4. **Launch** the app from Applications or Spotlight
+5. **Grant Accessibility Permissions** when prompted (required for global hotkey)
    - System Settings → Privacy & Security → Accessibility
    - Enable "Todo Capture"
-5. **Start using!** Press `Cmd+Ctrl+K` after copying text
+6. **Start using!** Press `Cmd+Ctrl+K` after copying text
 
 ### Option 2: Build from Source
 
@@ -168,6 +174,27 @@ npm run build   # Build DMG for distribution
 macOS requires accessibility permission for apps that register global keyboard shortcuts. The app only listens for `Cmd+Ctrl+K` - it doesn't monitor your keyboard otherwise.
 
 ## 🐛 Troubleshooting
+
+### "App is Damaged and Can't Be Opened" / "App is Corrupted"
+
+macOS Gatekeeper blocks apps that aren't signed with an Apple Developer certificate. This is expected for open-source apps distributed outside the App Store.
+
+**Fix (one-time step):**
+
+1. Move `Todo Capture.app` to `/Applications` if you haven't already
+2. Open **Terminal** and run:
+   ```bash
+   xattr -cr "/Applications/Todo Capture.app"
+   ```
+3. Launch the app normally
+
+**Alternative (System Settings):**
+
+After attempting to open the app, go to **System Settings → Privacy & Security** and click **"Open Anyway"** next to the Todo Capture entry.
+
+> This only needs to be done once. The app is open-source — you can review all the code in this repo.
+
+---
 
 ### Hotkey Not Working
 
